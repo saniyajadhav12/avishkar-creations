@@ -1,26 +1,117 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* dark: variant follows the data-theme attribute set on <html> */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Raw brand palette: replaces Tailwind's default colors so the UI stays on-brand.
+   Prefer the semantic tokens below in components; use these for brand-specific details. */
+@theme {
+  --color-*: initial;
+
+  --color-ivory: #f7f1e8;
+  --color-emerald: #1f4d3a;
+  --color-gold: #b8893b;
+  --color-ink: #2a2220;
+  --color-maroon: #7a1f2b;
+  --color-white: #ffffff;
+  --color-black: #000000;
 }
 
+/* Semantic tokens: each maps to a CSS variable that switches with the theme */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-accent-line: var(--accent-line);
+  --color-badge: var(--badge);
+  --color-on-badge: var(--on-badge);
+  --color-border: var(--border);
+
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-devanagari: var(--font-tiro-devanagari), serif;
 }
 
+/* Light theme (default) */
+:root {
+  color-scheme: light;
+  --surface: #f7f1e8;
+  --surface-raised: #efe6d8;
+  --fg: #2a2220;
+  --fg-muted: #5e524c;
+  --primary: #1f4d3a;
+  --primary-hover: #163829;
+  --on-primary: #f7f1e8;
+  --accent: #8c6420; /* gold, deepened for readable text on ivory */
+  --accent-line: #b8893b; /* brand gold for decorative lines and borders */
+  --badge: #7a1f2b;
+  --on-badge: #f7f1e8;
+  --border: #e2d7c6;
+}
+
+/* Dark theme values, shared by the no-JS fallback and the explicit setting */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --surface: #121814;
+    --surface-raised: #1b231e;
+    --fg: #f2ebdf;
+    --fg-muted: #b9aea3;
+    --primary: #5fae87;
+    --primary-hover: #7cc3a0;
+    --on-primary: #121814;
+    --accent: #d4a85a;
+    --accent-line: #d4a85a;
+    --badge: #9b3341;
+    --on-badge: #f7f1e8;
+    --border: #2a332d;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #121814;
+  --surface-raised: #1b231e;
+  --fg: #f2ebdf;
+  --fg-muted: #b9aea3;
+  --primary: #5fae87;
+  --primary-hover: #7cc3a0;
+  --on-primary: #121814;
+  --accent: #d4a85a;
+  --accent-line: #d4a85a;
+  --badge: #9b3341;
+  --on-badge: #f7f1e8;
+  --border: #2a332d;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-cormorant), Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    line-height: 1.15;
+  }
+
+  ::selection {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
