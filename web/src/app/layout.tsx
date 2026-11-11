@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, DM_Sans, Tiro_Devanagari_Marathi } from "next/font/google";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
@@ -52,7 +54,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="flex min-h-full flex-col bg-surface font-sans text-fg">{children}</body>
+      <body className="flex min-h-full flex-col bg-surface font-sans text-fg">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-on-primary"
+        >
+          Skip to content
+        </a>
+        <Header />
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
+        <Footer />
+      </body>
     </html>
   );
 }

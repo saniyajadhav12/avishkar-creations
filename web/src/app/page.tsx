@@ -1,5 +1,3 @@
-import { ThemeToggle } from "@/components/theme-toggle";
-
 // Temporary design preview. Replaced by the real home page in Phase 2.
 const swatches = [
   { name: "surface", className: "bg-surface" },
@@ -14,15 +12,11 @@ const swatches = [
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-col gap-12 px-6 py-10">
-      <div className="flex justify-end">
-        <ThemeToggle />
-      </div>
-
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 px-6 py-16">
       <section className="flex flex-col items-center gap-3 text-center">
         <p className="font-devanagari text-5xl text-primary">आविष्कार</p>
         <h1 className="text-4xl sm:text-5xl">Avishkar Creations</h1>
-        <p className="font-display text-xl italic text-accent">Handmade · One of a kind · Made with love</p>
+        <p className="font-display text-xl text-accent italic">Handmade · One of a kind · Made with love</p>
         <div className="h-px w-24 bg-accent-line" />
         <p className="max-w-prose text-fg-muted">
           Body text in DM Sans. Handmade jewellery by Kavita Jadhav: pearl strands, beaded necklaces,
@@ -47,6 +41,6 @@ export default function HomePage() {
           Sold out
         </span>
       </section>
-    </main>
+    </div>
   );
 }
