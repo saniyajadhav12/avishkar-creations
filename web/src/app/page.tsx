@@ -12,6 +12,8 @@ import { formatDateRange } from "@/lib/format";
 import { contactLink, site } from "@/lib/site";
 
 const container = "mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8";
+const imageLinkFocus =
+  "rounded-t-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-line";
 
 export default async function HomePage() {
   const [products, categories, exhibitions] = await Promise.all([
@@ -24,9 +26,12 @@ export default async function HomePage() {
   const featuredOnly = products.filter((product) => product.isFeatured);
   const featured = (featuredOnly.length > 0 ? featuredOnly : products).slice(0, 4);
 
-  const heroImages = featured.flatMap((product) => (product.images[0] ? [product.images[0]] : []));
-  const [heroMain, heroSecondary] = heroImages;
-  const makerImage = heroImages[2] ?? heroMain;
+  // Featured pieces that have a photo, so hero and maker images can link to their product pages
+  const showcase = featured.flatMap((product) =>
+    product.images[0] ? [{ product, image: product.images[0] }] : [],
+  );
+  const [heroMain, heroSecondary] = showcase;
+  const maker = showcase[2] ?? heroMain;
 
   // Only categories that actually have pieces, each with its first photo as the cover
   const collections = categories.flatMap((category) => {
@@ -65,19 +70,33 @@ export default async function HomePage() {
         </div>
 
         <div className="relative mx-auto w-full max-w-sm sm:max-w-md lg:max-w-none">
-          <ArchFrame className="aspect-[4/5] w-full lg:ml-auto lg:w-[80%]">
-            {heroMain ? (
-              <ProductImage image={heroMain} sizes="(min-width: 1024px) 40vw, 90vw" priority />
-            ) : (
+          {heroMain ? (
+            <Link
+              href={`/shop/${heroMain.product.slug}`}
+              aria-label={`View ${heroMain.product.name}`}
+              className={`block w-full lg:ml-auto lg:w-[80%] ${imageLinkFocus}`}
+            >
+              <ArchFrame className="aspect-[4/5] w-full">
+                <ProductImage image={heroMain.image} sizes="(min-width: 1024px) 40vw, 90vw" priority />
+              </ArchFrame>
+            </Link>
+          ) : (
+            <ArchFrame className="aspect-[4/5] w-full lg:ml-auto lg:w-[80%]">
               <div className="flex h-full items-center justify-center font-devanagari text-8xl text-fg-muted/40">
                 आ
               </div>
-            )}
-          </ArchFrame>
-          {heroSecondary && (
-            <ArchFrame className="absolute -bottom-8 -left-2 hidden aspect-[4/5] w-[42%] ring-8 ring-surface sm:block lg:left-0">
-              <ProductImage image={heroSecondary} sizes="20vw" />
             </ArchFrame>
+          )}
+          {heroSecondary && (
+            <Link
+              href={`/shop/${heroSecondary.product.slug}`}
+              aria-label={`View ${heroSecondary.product.name}`}
+              className={`absolute -bottom-8 -left-2 hidden w-[42%] sm:block lg:left-0 ${imageLinkFocus}`}
+            >
+              <ArchFrame className="aspect-[4/5] w-full ring-8 ring-surface">
+                <ProductImage image={heroSecondary.image} sizes="20vw" />
+              </ArchFrame>
+            </Link>
           )}
         </div>
       </section>
@@ -120,10 +139,7 @@ export default async function HomePage() {
               {collections.map(({ category, count, cover }, index) => (
                 <li key={category.id}>
                   <Reveal delay={index * 0.08}>
-                    <Link
-                      href={`/shop?category=${category.slug}`}
-                      className="group block rounded-t-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-line"
-                    >
+                    <Link href={`/shop?category=${category.slug}`} className={`group block ${imageLinkFocus}`}>
                       <ArchFrame className="aspect-[3/4]">
                         {cover && (
                           <ProductImage
@@ -153,9 +169,19 @@ export default async function HomePage() {
       {/* The maker */}
       <section className={`${container} grid items-center gap-12 py-20 lg:grid-cols-2 lg:gap-20 lg:py-28`}>
         <Reveal className="mx-auto w-full max-w-sm lg:max-w-md">
-          <ArchFrame className="aspect-[4/5]">
-            {makerImage && <ProductImage image={makerImage} sizes="(min-width: 1024px) 40vw, 90vw" />}
-          </ArchFrame>
+          {maker ? (
+            <Link href={`/shop/${maker.product.slug}`} aria-label={`View ${maker.product.name}`} className={`block ${imageLinkFocus}`}>
+              <ArchFrame className="aspect-[4/5]">
+                <ProductImage image={maker.image} sizes="(min-width: 1024px) 40vw, 90vw" />
+              </ArchFrame>
+            </Link>
+          ) : (
+            <ArchFrame className="aspect-[4/5]" >
+              <div className="flex h-full items-center justify-center font-devanagari text-8xl text-fg-muted/40">
+                आ
+              </div>
+            </ArchFrame>
+          )}
         </Reveal>
         <Reveal delay={0.1} className="flex flex-col gap-6">
           <SectionHeading align="left" eyebrow="The maker" title={`Made by hand by ${site.founder}`} />
