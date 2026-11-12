@@ -10,6 +10,7 @@ export const site = {
   name: "Avishkar Creations",
   nameMarathi: "आविष्कार",
   founder: "Kavita Jadhav",
+  location: "Pune, Maharashtra",
   tagline: "Handmade jewellery, one of a kind, made with love.",
   instagramHandle: "avishkar_creations",
   instagramUrl: "https://www.instagram.com/avishkar_creations/",
