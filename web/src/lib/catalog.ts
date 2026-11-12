@@ -18,6 +18,21 @@ const categorySchema = z.object({
   sort_order: z.number().int(),
 });
 
+const colorSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  hex: z.string(),
+  sort_order: z.number().int(),
+});
+
+const materialSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  sort_order: z.number().int(),
+});
+
 const productRowSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -26,8 +41,11 @@ const productRowSchema = z.object({
   price_inr: z.number().int(),
   is_featured: z.boolean(),
   is_sold_out: z.boolean(),
+  created_at: z.string(),
   category: z.object({ id: z.string(), name: z.string(), slug: z.string() }).nullable(),
   images: z.array(z.object({ id: z.string(), alt_text: z.string(), sort_order: z.number().int() })),
+  colors: z.array(z.object({ color: colorSchema.nullable() })),
+  materials: z.array(z.object({ material: materialSchema.nullable() })),
 });
 
 const exhibitionSchema = z.object({
@@ -48,6 +66,8 @@ const manifestSchema = z.object({
 });
 
 export type Category = z.infer<typeof categorySchema>;
+export type Color = z.infer<typeof colorSchema>;
+export type Material = z.infer<typeof materialSchema>;
 export type Exhibition = z.infer<typeof exhibitionSchema>;
 type ImageManifest = z.infer<typeof manifestSchema>;
 
@@ -70,7 +90,10 @@ export type CatalogProduct = {
   priceInr: number;
   isFeatured: boolean;
   isSoldOut: boolean;
+  createdAt: string;
   category: { id: string; name: string; slug: string } | null;
+  colors: { id: string; name: string; slug: string; hex: string }[];
+  materials: { id: string; name: string; slug: string }[];
   images: CatalogImage[];
 };
 
@@ -102,6 +125,10 @@ function imageUrl(imageId: string, width: number): string {
   return `/product-images/${imageId}-${width}.webp`;
 }
 
+function bySortOrder<T extends { sort_order: number; name: string }>(a: T, b: T): number {
+  return a.sort_order - b.sort_order || a.name.localeCompare(b.name);
+}
+
 // ---------- Public API ----------
 
 export async function getCategories(): Promise<Category[]> {
@@ -114,13 +141,36 @@ export async function getCategories(): Promise<Category[]> {
   return z.array(categorySchema).parse(data);
 }
 
+export async function getColors(): Promise<Color[]> {
+  const { data, error } = await db()
+    .from("colors")
+    .select("id, name, slug, hex, sort_order")
+    .order("sort_order")
+    .order("name");
+  if (error) throw new Error(`Could not load colors: ${error.message}`);
+  return z.array(colorSchema).parse(data);
+}
+
+export async function getMaterials(): Promise<Material[]> {
+  const { data, error } = await db()
+    .from("materials")
+    .select("id, name, slug, sort_order")
+    .order("sort_order")
+    .order("name");
+  if (error) throw new Error(`Could not load materials: ${error.message}`);
+  return z.array(materialSchema).parse(data);
+}
+
 async function loadProducts(): Promise<CatalogProduct[]> {
   const [{ data, error }, manifest] = await Promise.all([
     db()
       .from("products")
       .select(
-        "id, name, slug, description, price_inr, is_featured, is_sold_out, " +
-          "category:categories(id, name, slug), images:product_images(id, alt_text, sort_order)",
+        "id, name, slug, description, price_inr, is_featured, is_sold_out, created_at, " +
+          "category:categories(id, name, slug), " +
+          "images:product_images(id, alt_text, sort_order), " +
+          "colors:product_colors(color:colors(id, name, slug, hex, sort_order)), " +
+          "materials:product_materials(material:materials(id, name, slug, sort_order))",
       )
       .order("created_at", { ascending: false }),
     loadImageManifest(),
@@ -138,7 +188,16 @@ async function loadProducts(): Promise<CatalogProduct[]> {
       priceInr: row.price_inr,
       isFeatured: row.is_featured,
       isSoldOut: row.is_sold_out,
+      createdAt: row.created_at,
       category: row.category,
+      colors: row.colors
+        .flatMap(({ color }) => (color ? [color] : []))
+        .sort(bySortOrder)
+        .map(({ id, name, slug, hex }) => ({ id, name, slug, hex })),
+      materials: row.materials
+        .flatMap(({ material }) => (material ? [material] : []))
+        .sort(bySortOrder)
+        .map(({ id, name, slug }) => ({ id, name, slug })),
       images: [...row.images]
         .sort((a, b) => a.sort_order - b.sort_order)
         .flatMap((image): CatalogImage[] => {
