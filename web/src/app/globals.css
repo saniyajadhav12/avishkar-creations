@@ -115,3 +115,17 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Marquee strip: two identical copies scroll by half their combined width for a seamless loop */
+@theme {
+  --animate-marquee: marquee 45s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
