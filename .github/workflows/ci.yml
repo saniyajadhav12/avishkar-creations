@@ -21,6 +21,10 @@ jobs:
     defaults:
       run:
         working-directory: web
+    env:
+      # Public by design (access is enforced by RLS); stored as repository variables
+      NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
