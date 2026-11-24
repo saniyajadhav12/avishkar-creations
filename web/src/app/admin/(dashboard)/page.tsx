@@ -5,7 +5,7 @@ import { useAdminSession } from "@/components/admin/admin-session";
 import { PublishButton } from "@/components/admin/publish-button";
 
 const sections = [
-  { title: "Products", description: "Add pieces, upload photos, set prices", href: null },
+  { title: "Products", description: "Add pieces, upload photos, set prices", href: "/admin/products" },
   { title: "Categories, colours & materials", description: "Manage the shop's filter options", href: null },
   { title: "Exhibitions", description: "Add upcoming exhibition dates", href: null },
   { title: "Enquiries", description: "Read messages from the contact form", href: null },
