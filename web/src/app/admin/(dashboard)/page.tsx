@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useAdminSession } from "@/components/admin/admin-session";
+import { PublishButton } from "@/components/admin/publish-button";
 
 const sections = [
   { title: "Products", description: "Add pieces, upload photos, set prices", href: null },
@@ -20,6 +21,8 @@ export default function AdminHomePage() {
         <h1 className="text-4xl">Welcome back</h1>
         <p className="text-sm text-fg-muted">Signed in as {user.email}</p>
       </div>
+
+      <PublishButton />
 
       <ul className="grid gap-4 sm:grid-cols-2">
         {sections.map((section) => (
