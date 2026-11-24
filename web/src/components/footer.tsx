@@ -61,11 +61,16 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-6 text-xs text-fg-muted sm:flex-row sm:justify-between sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-6 text-xs text-fg-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>
             © {year} {site.name}. All rights reserved.
           </p>
-          <p>Website by Saniya Jadhav</p>
+          <div className="flex flex-wrap items-center gap-x-4">
+            <Link href="/privacy" className="hover:text-fg">
+              Privacy policy
+            </Link>
+            <p>Website by Saniya Jadhav</p>
+          </div>
         </div>
       </div>
     </footer>

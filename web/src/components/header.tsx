@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CameraIcon, ChatIcon, CloseIcon, MenuIcon } from "@/components/icons";
+import { AccountLink } from "@/components/auth/account-link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { contactLink, navLinks, site } from "@/lib/site";
 
@@ -96,6 +97,7 @@ export function Header() {
 
           <div className="flex items-center gap-1">
             <ThemeToggle />
+            <AccountLink />
             <button
               ref={menuButtonRef}
               type="button"

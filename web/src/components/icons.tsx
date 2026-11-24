@@ -54,3 +54,29 @@ export function ChevronDownIcon({ className = "size-4" }: IconProps) {
     </svg>
   );
 }
+
+export function UserIcon({ className = "size-5" }: IconProps) {
+  return (
+    <svg {...baseProps} className={className}>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" />
+    </svg>
+  );
+}
+
+export function HeartIcon({ className = "size-5", filled = false }: IconProps & { filled?: boolean }) {
+  return (
+    <svg {...baseProps} fill={filled ? "currentColor" : "none"} className={className}>
+      <path d="M12 20s-7-4.4-9.2-9C1.4 7.9 3.3 4.5 6.6 4.5c2 0 3.4 1.1 4.4 2.6 1-1.5 2.4-2.6 4.4-2.6 3.3 0 5.2 3.4 3.8 6.5C19 15.6 12 20 12 20z" />
+    </svg>
+  );
+}
+
+export function BagIcon({ className = "size-5" }: IconProps) {
+  return (
+    <svg {...baseProps} className={className}>
+      <path d="M5 8h14l-1 12H6L5 8z" />
+      <path d="M9 8V6a3 3 0 016 0v2" />
+    </svg>
+  );
+}
