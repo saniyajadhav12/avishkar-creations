@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
+import { CustomerSessionProvider } from "@/components/auth/customer-session";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 
-// Storefront chrome: skip link, header, main content, and footer.
+// Storefront chrome: skip link, header, main content, and footer, plus the shared customer login state.
 // "(site)" is a route group, so it doesn't appear in URLs (/shop stays /shop).
 export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
-    <>
+    <CustomerSessionProvider>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-on-primary"
@@ -18,6 +19,6 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
       <Footer />
-    </>
+    </CustomerSessionProvider>
   );
 }
