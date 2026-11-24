@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { errorClass } from "@/components/admin/form-styles";
 import { ProductForm } from "@/components/admin/product-form";
+import { ProductPhotos } from "@/components/admin/product-photos";
 import { getAdminProduct, type AdminProductDetail } from "@/lib/admin/products";
 
 type LoadState =
@@ -41,7 +42,12 @@ function EditProduct() {
   }
   if (state.status === "loading") return <p className="text-fg-muted">Loading…</p>;
 
-  return <ProductForm key={state.product.id} product={state.product} justCreated={justCreated} />;
+  return (
+    <div className="flex flex-col gap-6">
+      <ProductPhotos productId={state.product.id} productName={state.product.name} />
+      <ProductForm key={state.product.id} product={state.product} justCreated={justCreated} />
+    </div>
+  );
 }
 
 // Product IDs aren't known at build time, so the edit page reads ?id= in the browser.
