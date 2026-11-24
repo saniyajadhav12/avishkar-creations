@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "avishkar-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-01",
+  "triggers": {
+    // Keep-alive twice a day (UTC): 03:00 and 15:00 = 8:30 AM and 8:30 PM India time
+    "crons": ["0 3 * * *", "0 15 * * *"]
+  },
+  "vars": {
+    // Public by design: access is enforced by Supabase Auth + RLS, not by hiding these
+    "SUPABASE_URL": "https://dbzvqwjcheqalubengwu.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_aV092XdQU3u1XwOyLPpx8g_QVRowi86",
+    "ALLOWED_ORIGINS": "https://avishkar-creations.pages.dev,http://localhost:3000"
+  }
+  // Secret (set with `npx wrangler secret put DEPLOY_HOOK_URL`, never committed): DEPLOY_HOOK_URL
+}
