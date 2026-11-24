@@ -7,8 +7,8 @@ import { PublishButton } from "@/components/admin/publish-button";
 const sections = [
   { title: "Products", description: "Add pieces, upload photos, set prices", href: "/admin/products" },
   { title: "Categories, colours & materials", description: "Manage the shop's filter options", href: "/admin/options" },
-  { title: "Exhibitions", description: "Add upcoming exhibition dates", href: null },
-  { title: "Enquiries", description: "Read messages from the contact form", href: null },
+  { title: "Exhibitions", description: "Add upcoming exhibition dates", href: "/admin/exhibitions" },
+  { title: "Enquiries", description: "Read messages from the contact form", href: "/admin/enquiries" },
   { title: "Profile", description: "Change your password or email", href: "/admin/profile" },
 ];
 
