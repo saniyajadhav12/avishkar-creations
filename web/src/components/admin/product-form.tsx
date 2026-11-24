@@ -60,7 +60,7 @@ export function ProductForm({ product, justCreated = false }: ProductFormProps) 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [formError, setFormError] = useState("");
-  const [savedMessage, setSavedMessage] = useState(justCreated ? "Product created. You can add photos below." : "");
+  const [savedMessage, setSavedMessage] = useState(justCreated ? "Product created. Add its photos above." : "");
 
   useEffect(() => {
     loadProductOptions()
