@@ -4,7 +4,7 @@
 
 // WhatsApp number with country code, from NEXT_PUBLIC_WHATSAPP_NUMBER (e.g. 919876543210 or +91 98765 43210).
 // Set it in web/.env.local for local testing and in Cloudflare Pages for the live site, so a test
-// number never ends up in the public repo. Until it's set, "message us" links open Instagram DMs instead.
+// number never ends up in the public repo. Until it's set, "message us" links open her Instagram profile instead.
 const WHATSAPP_NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "").replace(/\D/g, "");
 
 export const site = {
@@ -30,7 +30,7 @@ export const navLinks = [
 ] as const;
 
 /**
- * Where "message us" buttons point: WhatsApp once the number is set, Instagram DMs until then.
+ * Where "message us" buttons point: WhatsApp once the number is set, her Instagram profile until then.
  * An optional prefilled message is only supported by WhatsApp.
  */
 export function contactLink(message?: string): { href: string; label: string } {
@@ -39,5 +39,5 @@ export function contactLink(message?: string): { href: string; label: string } {
     return { href: `https://wa.me/${site.whatsappNumber}${text}`, label: "Message on WhatsApp" };
   }
 
-  return { href: `https://ig.me/m/${site.instagramHandle}`, label: "Message on Instagram" };
+  return { href: site.instagramUrl, label: "Message on Instagram" };
 }
