@@ -9,6 +9,7 @@ const sections = [
   { title: "Categories, colours & materials", description: "Manage the shop's filter options", href: "/admin/options" },
   { title: "Exhibitions", description: "Add upcoming exhibition dates", href: "/admin/exhibitions" },
   { title: "Enquiries", description: "Read messages from the contact form", href: "/admin/enquiries" },
+  { title: "Settings", description: "Choose whether customers sign in before messaging", href: "/admin/settings" },
   { title: "Profile", description: "Change your password or email", href: "/admin/profile" },
 ];
 
