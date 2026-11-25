@@ -108,6 +108,7 @@ function ProfileForm({ user }: { user: User }) {
 }
 
 function DeleteAccountSection() {
+  const router = useRouter();
   const [confirmText, setConfirmText] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
@@ -123,7 +124,7 @@ function DeleteAccountSection() {
     }
     // The account is gone; clear the saved session from this browser and leave
     await getBrowserSupabase().auth.signOut({ scope: "local" });
-    window.location.assign("/");
+    router.replace("/");
   }
 
   return (

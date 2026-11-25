@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, DM_Sans, Tiro_Devanagari_Marathi } from "next/font/google";
 import { themeInitScript } from "@/lib/theme";
+import { site } from "@/lib/site";
 import "./globals.css";
 
 // Root layout shared by the storefront and the admin dashboard: fonts, theme, and document shell.
@@ -29,12 +30,21 @@ const tiroDevanagari = Tiro_Devanagari_Marathi({
 });
 
 export const metadata: Metadata = {
+  // Makes relative image and page URLs absolute in link previews and the sitemap
+  metadataBase: new URL(site.url),
   title: {
     default: "Avishkar Creations · Handmade Jewellery",
     template: "%s · Avishkar Creations",
   },
-  description:
-    "Handmade jewellery by Kavita Jadhav: pearl strands, beaded necklaces, temple and kundan pendants, oxidised silver, and matching earrings.",
+  description: site.description,
+  // Link previews on WhatsApp, Instagram, Facebook, and X
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    locale: "en_IN",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: `${site.name} logo` }],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {
