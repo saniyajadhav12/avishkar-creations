@@ -31,7 +31,7 @@ export function CartView({ products }: { products: ClientProduct[] }) {
     "",
     ...orderable.map(
       ({ item, product }) =>
-        `• ${product.name} × ${item.quantity}: ${formatPriceInr(item.quantity * product.priceInr)}`,
+        `• ${product.name} × ${item.quantity}: ${formatPriceInr(item.quantity * product.priceInr)}\n  ${site.url}/shop/${product.slug}/`,
     ),
     "",
     `Total: ${formatPriceInr(total)}`,

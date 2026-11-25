@@ -2,9 +2,10 @@
  * Brand details and navigation, kept in one place so they're never hard-coded across components.
  */
 
-// PRE-LAUNCH CHECKLIST: add the WhatsApp number as digits with country code, no + or spaces
-// (e.g. "919876543210"). Until then, "message us" links open Instagram DMs instead.
-const WHATSAPP_NUMBER: string = "";
+// WhatsApp number with country code, from NEXT_PUBLIC_WHATSAPP_NUMBER (e.g. 919876543210 or +91 98765 43210).
+// Set it in web/.env.local for local testing and in Cloudflare Pages for the live site, so a test
+// number never ends up in the public repo. Until it's set, "message us" links open Instagram DMs instead.
+const WHATSAPP_NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "").replace(/\D/g, "");
 
 export const site = {
   name: "Avishkar Creations",

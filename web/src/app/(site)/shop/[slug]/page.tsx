@@ -71,9 +71,10 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
 
   const price = formatPriceInr(product.priceInr);
   const related = relatedProducts(product, products);
+  const productUrl = `${site.url}/shop/${product.slug}/`;
   const askMessage = product.isSoldOut
-    ? `Hello! I saw that the ${product.name} is sold out. Do you have anything similar?`
-    : `Hello! I'm interested in the ${product.name} (${price}).`;
+    ? `Hello! I saw that the ${product.name} is sold out. Do you have anything similar?\n${productUrl}`
+    : `Hello! I'm interested in the ${product.name} (${price}).\n${productUrl}`;
   const askLabel = product.isSoldOut
     ? "Ask about similar pieces"
     : contactLink().label.replace("Message on", "Ask on");
