@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { buttonStyles } from "@/components/button-styles";
-import { ChatIcon } from "@/components/icons";
 import { ProductCard } from "@/components/product-card";
 import { ProductGallery } from "@/components/product-gallery";
 import { SectionHeading } from "@/components/section-heading";
+import { buttonStyles } from "@/components/button-styles";
+import { AddToCartButton } from "@/components/shop/add-to-cart-button";
+import { HeartButton } from "@/components/shop/heart-button";
+import { MessageButton } from "@/components/shop/message-button";
 import { getProductBySlug, getProducts, type CatalogProduct } from "@/lib/catalog";
 import { formatPriceInr } from "@/lib/format";
 import { contactLink, site } from "@/lib/site";
@@ -55,12 +57,12 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
 
   const price = formatPriceInr(product.priceInr);
   const related = relatedProducts(product, products);
-  const contact = contactLink(
-    product.isSoldOut
-      ? `Hello! I saw that the ${product.name} is sold out. Do you have anything similar?`
-      : `Hello! I'm interested in the ${product.name} (${price}).`,
-  );
-  const askLabel = product.isSoldOut ? "Ask about similar pieces" : contact.label.replace("Message on", "Ask on");
+  const askMessage = product.isSoldOut
+    ? `Hello! I saw that the ${product.name} is sold out. Do you have anything similar?`
+    : `Hello! I'm interested in the ${product.name} (${price}).`;
+  const askLabel = product.isSoldOut
+    ? "Ask about similar pieces"
+    : contactLink().label.replace("Message on", "Ask on");
 
   return (
     <div>
@@ -99,7 +101,10 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
               {product.category && (
                 <p className="text-xs font-medium tracking-[0.25em] text-accent uppercase">{product.category.name}</p>
               )}
-              <h1 className="text-4xl sm:text-5xl">{product.name}</h1>
+              <div className="flex items-start justify-between gap-4">
+                <h1 className="text-4xl sm:text-5xl">{product.name}</h1>
+                <HeartButton productId={product.id} productName={product.name} className="mt-1 shrink-0 border border-border" />
+              </div>
               <div className="flex flex-wrap items-center gap-3">
                 <p className="text-2xl">{price}</p>
                 {product.isSoldOut && (
@@ -151,11 +156,8 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
             )}
 
             <div className="flex flex-wrap gap-3">
-              <a href={contact.href} target="_blank" rel="noopener noreferrer" className={buttonStyles.primary}>
-                <ChatIcon />
-                {askLabel}
-              </a>
-              {/* Phase 4: wishlist heart and "Add to cart" go here */}
+              <AddToCartButton slug={product.slug} soldOut={product.isSoldOut} />
+              <MessageButton message={askMessage} label={askLabel} className={buttonStyles.secondary} />
             </div>
 
             <p className="flex items-start gap-2 text-sm text-fg-muted">
@@ -181,7 +183,7 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
         )}
       </div>
 
-      {/* Mobile and tablet: sticky price-and-ask bar. As the last element in the page content,
+      {/* Mobile and tablet: sticky price bar. As the last element in the page content,
           it follows the visitor while scrolling, then settles above the footer instead of covering it. */}
       <div className="sticky bottom-0 z-30 border-t border-border bg-surface/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
@@ -192,15 +194,11 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
               {product.isSoldOut && " · Sold out"}
             </p>
           </div>
-          <a
-            href={contact.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${buttonStyles.primary} shrink-0`}
-          >
-            <ChatIcon />
-            {askLabel}
-          </a>
+          {product.isSoldOut ? (
+            <MessageButton message={askMessage} label="Ask about similar" className={`${buttonStyles.primary} shrink-0`} />
+          ) : (
+            <AddToCartButton slug={product.slug} soldOut={false} className="shrink-0" />
+          )}
         </div>
       </div>
     </div>
