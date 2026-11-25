@@ -12,6 +12,10 @@ export const site = {
   founder: "Kavita Jadhav",
   location: "Pune, Maharashtra",
   tagline: "Handmade jewellery, one of a kind, made with love.",
+  description:
+    "Handmade jewellery by Kavita Jadhav in Pune: pearl strands, beaded necklaces, temple and kundan pendants, oxidised silver, and matching earrings.",
+  // The live address. When the .com domain is connected, this is the only line to change.
+  url: "https://avishkar-creations.pages.dev",
   instagramHandle: "avishkar_creations",
   instagramUrl: "https://www.instagram.com/avishkar_creations/",
   whatsappNumber: WHATSAPP_NUMBER,

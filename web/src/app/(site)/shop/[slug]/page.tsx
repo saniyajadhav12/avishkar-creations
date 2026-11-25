@@ -30,10 +30,24 @@ export async function generateMetadata({ params }: PageProps<"/shop/[slug]">): P
   const product = await getProductBySlug(slug);
   if (!product) return { title: "Not found" };
 
+  const description = product.description.slice(0, 155) || `${product.name}, handmade by ${site.founder}.`;
+  const preview = product.images[0];
   return {
     title: product.name,
-    description:
-      product.description.slice(0, 155) || `${product.name}, handmade by ${site.founder}.`,
+    description,
+    alternates: { canonical: `/shop/${product.slug}/` },
+    // Next.js replaces (not merges) openGraph per page, so the product page sets its full preview
+    openGraph: {
+      type: "website",
+      siteName: site.name,
+      locale: "en_IN",
+      title: `${product.name} · ${site.name}`,
+      description,
+      url: `/shop/${product.slug}/`,
+      images: preview
+        ? [{ url: `/product-images/${preview.id}-og.jpg`, width: 1200, height: 630, alt: preview.alt }]
+        : [{ url: "/og-image.jpg", width: 1200, height: 630, alt: `${site.name} logo` }],
+    },
   };
 }
 
@@ -64,8 +78,29 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
     ? "Ask about similar pieces"
     : contactLink().label.replace("Message on", "Ask on");
 
+  // Structured data so search engines can show the price and availability
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description || undefined,
+    image: product.images.map((image) => `${site.url}${image.src}`),
+    brand: { "@type": "Brand", name: site.name },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "INR",
+      price: product.priceInr,
+      availability: product.isSoldOut ? "https://schema.org/SoldOut" : "https://schema.org/InStock",
+      url: `${site.url}/shop/${product.slug}/`,
+    },
+  };
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd).replace(/</g, "\\u003c") }}
+      />
       <div className={`${container} pt-8 pb-20 lg:pt-12`}>
         <nav aria-label="Breadcrumb" className="mb-8 text-sm text-fg-muted">
           <ol className="flex flex-wrap items-center gap-2">

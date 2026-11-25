@@ -46,3 +46,4 @@ next-env.d.ts
 # Generated at build time from Supabase
 /.generated/
 /public/product-images/
+/public/og-image.jpg
