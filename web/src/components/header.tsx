@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { CameraIcon, ChatIcon, CloseIcon, MenuIcon } from "@/components/icons";
 import { AccountLink } from "@/components/auth/account-link";
+import { CameraIcon, ChatIcon, CloseIcon, MenuIcon } from "@/components/icons";
 import { HeaderShopLinks } from "@/components/shop/header-shop-links";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { contactLink, navLinks, site } from "@/lib/site";
@@ -20,10 +20,15 @@ const focusRing =
 
 export function Header() {
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // The menu remembers which page it was opened on and only shows on that page,
+  // so navigating anywhere (including via the header icons) closes it automatically.
+  const [menuOpenOn, setMenuOpenOn] = useState<string | null>(null);
+  const isMenuOpen = menuOpenOn === pathname;
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
   const contact = contactLink();
+
+  const closeMenu = () => setMenuOpenOn(null);
 
   // While the mobile menu is open: lock page scroll, focus the first link,
   // close on Escape, and close if the screen grows past the mobile breakpoint.
@@ -36,14 +41,14 @@ export function Header() {
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setIsMenuOpen(false);
+        setMenuOpenOn(null);
         menuButtonRef.current?.focus();
       }
     }
 
     const widerThanMobile = window.matchMedia("(min-width: 640px)");
     function handleBreakpointChange(event: MediaQueryListEvent) {
-      if (event.matches) setIsMenuOpen(false);
+      if (event.matches) setMenuOpenOn(null);
     }
 
     document.addEventListener("keydown", handleKeyDown);
@@ -55,8 +60,6 @@ export function Header() {
       widerThanMobile.removeEventListener("change", handleBreakpointChange);
     };
   }, [isMenuOpen]);
-
-  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <>
@@ -98,12 +101,15 @@ export function Header() {
 
           <div className="flex items-center gap-1">
             <ThemeToggle />
-            <HeaderShopLinks />
-            <AccountLink />
+            {/* Tapping the wishlist, cart, or account icon also closes the menu (even when already on that page) */}
+            <div className="flex items-center gap-1" onClick={closeMenu}>
+              <HeaderShopLinks />
+              <AccountLink />
+            </div>
             <button
               ref={menuButtonRef}
               type="button"
-              onClick={() => setIsMenuOpen((open) => !open)}
+              onClick={() => setMenuOpenOn((open) => (open === pathname ? null : pathname))}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
