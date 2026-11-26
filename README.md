@@ -171,7 +171,6 @@ avishkar-creations/
 
 - Custom `.com` domain and a branded email sender
 - Online payments with Razorpay and an orders table (the schema is designed for it)
-- An AWS Lambda image processor (Node.js + sharp, deployed with AWS SAM) to create image variants at upload time
 
 ---
 
