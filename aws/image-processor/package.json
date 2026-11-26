@@ -1,0 +1,15 @@
+{
+  "name": "avishkar-image-processor",
+  "private": true,
+  "type": "module",
+  "description": "AWS Lambda that creates optimised product image variants at upload time",
+  "scripts": {
+    "test:local": "node scripts/local-test.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.164"
+  }
+}
