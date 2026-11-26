@@ -1,4 +1,4 @@
-const phrases = ["Handmade", "One of a kind", "Made with love"];
+const phrases = ["Handmade", "One of a kind", "From her hands to your heart"];
 
 function MarqueeContent() {
   // Repeated so one copy is always wider than the screen

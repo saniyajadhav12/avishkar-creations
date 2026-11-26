@@ -51,9 +51,12 @@ export default async function HomePage() {
           <p lang="mr" className="font-devanagari text-5xl text-primary sm:text-6xl lg:text-7xl">
             {site.nameMarathi}
           </p>
-          <h1 className="text-4xl leading-tight sm:text-5xl lg:text-6xl">
-            Handmade jewellery, <em className="text-accent">one of a kind</em>
-          </h1>
+          <div className="flex flex-col gap-3">
+            <h1 className="text-4xl leading-tight sm:text-5xl lg:text-6xl">
+              Handmade jewellery, <em className="text-accent">one of a kind</em>
+            </h1>
+            <p className="font-display text-2xl text-fg-muted italic">Where tradition meets imagination.</p>
+          </div>
           <p className="max-w-md text-lg text-fg-muted">
             Pearl strands, beaded necklaces, and temple pendants, each piece made by hand by{" "}
             {site.founder}.
@@ -176,7 +179,7 @@ export default async function HomePage() {
               </ArchFrame>
             </Link>
           ) : (
-            <ArchFrame className="aspect-[4/5]" >
+            <ArchFrame className="aspect-[4/5]">
               <div className="flex h-full items-center justify-center font-devanagari text-8xl text-fg-muted/40">
                 आ
               </div>
@@ -184,15 +187,14 @@ export default async function HomePage() {
           )}
         </Reveal>
         <Reveal delay={0.1} className="flex flex-col gap-6">
-          <SectionHeading align="left" eyebrow="The maker" title={`Made by hand by ${site.founder}`} />
-          {/* PLACEHOLDER STORY: replace with Kavita's real story before the reveal */}
+          <SectionHeading align="left" eyebrow="The maker" title="From her hands to your heart" />
           <p className="max-w-prose text-fg-muted">
-            Every Avishkar piece begins at Kavita&apos;s worktable, where pearls, glass beads, and
-            temple-style pendants are chosen one by one and strung by hand.
+            Every Avishkar piece is made by hand by {site.founder} in Pune. Pearls, glass beads, and pendants are
+            chosen one by one and strung with care, so no two pieces are ever quite the same.
           </p>
           <p className="max-w-prose text-fg-muted">
-            Inspired by traditional Maharashtrian jewellery, her designs bring classic forms like the
-            tanmani and mangalsutra together with bright, joyful colour, made to be worn and loved.
+            Inspired by Maharashtrian classics like the tanmani and the mangalsutra, and by the colours she loves,
+            her jewellery is made for celebrations, for everyday elegance, and for gifting someone special.
           </p>
           <div>
             <Link href="/about" className={buttonStyles.secondary}>

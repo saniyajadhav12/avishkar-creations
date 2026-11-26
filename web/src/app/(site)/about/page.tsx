@@ -19,11 +19,11 @@ const container = "mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8";
 const steps = [
   {
     title: "Choosing",
-    text: "Every piece starts with the materials: pearls, glass and crystal beads, and pendants picked for colour and character.",
+    text: "Every piece starts with the materials: pearls, glass and crystal beads, and pendants, picked for their colour and character.",
   },
   {
     title: "Stringing",
-    text: "Each strand is strung and knotted by hand, bead by bead, so the piece sits and moves just right.",
+    text: "Each strand is strung by hand, bead by bead, so the piece sits and moves just right.",
   },
   {
     title: "Finishing",
@@ -55,8 +55,8 @@ export default async function AboutPage() {
             <span lang="mr" className="font-devanagari text-2xl text-primary">
               {site.nameMarathi}
             </span>{" "}
-            means invention, a new creation. It&apos;s a fitting name for jewellery where every piece is
-            made by hand and no two are exactly alike.
+            means invention, a new creation. It&apos;s a fitting name for jewellery where every piece begins as an
+            idea and is brought to life by hand.
           </p>
         </div>
         <div className="mx-auto w-full max-w-sm">
@@ -75,19 +75,23 @@ export default async function AboutPage() {
             </ArchFrame>
           </Reveal>
           <Reveal delay={0.1} className="flex flex-col gap-5">
-            <SectionHeading align="left" eyebrow="How it began" title="A love for traditional jewellery" />
-            {/* PLACEHOLDER STORY: replace with Kavita's real story before the reveal */}
+            <SectionHeading align="left" eyebrow="Where tradition meets imagination" title="Every bead holds a story" />
             <p className="max-w-prose text-fg-muted">
-              From her home in {site.location}, Kavita creates jewellery inspired by the pieces she grew
-              up admiring: pearl strands, temple pendants, and the classic Maharashtrian tanmani and
-              mangalsutra.
+              Some beautiful things aren&apos;t made in factories. They begin with a little imagination, a handful of
+              colourful beads, and hands that love to create.
             </p>
             <p className="max-w-prose text-fg-muted">
-              What began as a love for beads and colour grew into Avishkar Creations, with collections she
-              shares at exhibitions and with customers who find her on Instagram.
+              From her home in {site.location}, {site.founder} creates jewellery that brings together delicate pearls,
+              vibrant glass and crystal beads, temple and kundan pendants, oxidised silver, and timeless
+              Maharashtrian forms like the tanmani and the mangalsutra.
             </p>
             <p className="max-w-prose text-fg-muted">
-              Every piece is made in small batches, so each one carries a little of her care and attention.
+              Every bead is chosen with care and every strand is strung by hand, so each piece has a character of its
+              own. You&apos;ll find her collections at exhibitions and on Instagram, and now here.
+            </p>
+            <p className="max-w-prose text-fg-muted">
+              Whether you&apos;re dressing up for a celebration, adding a little elegance to every day, or choosing a
+              gift for someone you love, there&apos;s a piece of Avishkar waiting to become part of your story.
             </p>
           </Reveal>
         </div>
@@ -138,11 +142,11 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Call to action */}
+      {/* Closing */}
       <section className={`${container} py-20 lg:py-28`}>
         <Reveal className="flex flex-col items-center gap-6 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl">Find your piece</h2>
-          <p className="max-w-md text-fg-muted">Browse the collection, or follow along for new pieces and exhibition dates.</p>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl">From her hands to your heart</h2>
+          <p className="max-w-md text-fg-muted">Handcrafted with patience. Created with passion. Made with love.</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href="/shop" className={buttonStyles.primary}>
               Shop the collection
