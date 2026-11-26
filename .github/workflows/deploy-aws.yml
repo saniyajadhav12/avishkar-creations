@@ -1,0 +1,60 @@
+name: Deploy AWS image processor
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "aws/image-processor/**"
+      - ".github/workflows/deploy-aws.yml"
+  workflow_dispatch:
+
+# OIDC: GitHub proves this is the main branch of this repo; AWS returns short-lived credentials.
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: deploy-aws
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: SAM build & deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: aws/image-processor
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up AWS SAM CLI
+        uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      - name: Sign in to AWS with OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ap-south-1
+
+      - name: Build
+        run: sam build
+
+      - name: Deploy
+        run: >
+          sam deploy --no-progressbar
+          --parameter-overrides
+          SupabaseUrl=${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          SupabasePublishableKey=${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+
+      - name: Show Function URL
+        run: >
+          aws cloudformation describe-stacks --stack-name avishkar-image-processor
+          --query "Stacks[0].Outputs" --output table

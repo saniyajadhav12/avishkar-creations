@@ -12,3 +12,6 @@ node_modules/
 # Cloudflare Worker local files
 .wrangler/
 .dev.vars
+
+# AWS SAM build output
+.aws-sam/
