@@ -132,6 +132,7 @@ export function ShopCatalog({ products, categories, colors, materials }: ShopCat
   const router = useRouter();
   const pathname = usePathname();
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const chipsRef = useRef<HTMLDivElement>(null);
 
   const categoryParam = searchParams.get("category");
   const category = categories.some((c) => c.slug === categoryParam) ? categoryParam : null;
@@ -175,6 +176,21 @@ export function ShopCatalog({ products, categories, colors, materials }: ShopCat
     return () => desktop.removeEventListener("change", handleChange);
   }, []);
 
+  // Keep the selected category chip fully in view in the scrollable row (e.g. after choosing it from the menu)
+  useEffect(() => {
+    const row = chipsRef.current;
+    const chip = row?.querySelector<HTMLElement>("[aria-pressed=true]");
+    if (!row || !chip) return;
+    const rowBox = row.getBoundingClientRect();
+    const chipBox = chip.getBoundingClientRect();
+    if (chipBox.left >= rowBox.left && chipBox.right <= rowBox.right) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    row.scrollTo({
+      left: row.scrollLeft + chipBox.left - rowBox.left - (rowBox.width - chipBox.width) / 2,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }, [category]);
+
   const filterGroups = (
     <FilterGroups
       colors={colors}
@@ -189,6 +205,7 @@ export function ShopCatalog({ products, categories, colors, materials }: ShopCat
   return (
     <div className="flex flex-col gap-6">
       <div
+        ref={chipsRef}
         role="group"
         aria-label="Category"
         className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0"

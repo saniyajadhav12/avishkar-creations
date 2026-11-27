@@ -10,6 +10,8 @@ import { HeaderShopLinks } from "@/components/shop/header-shop-links";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { contactLink, generalEnquiryMessage, navLinks, site } from "@/lib/site";
 
+export type MenuCategory = { name: string; slug: string };
+
 function isActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -18,7 +20,7 @@ function isActive(pathname: string, href: string): boolean {
 const focusRing =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-line";
 
-export function Header() {
+export function Header({ menuCategories = [] }: { menuCategories?: MenuCategory[] }) {
   const pathname = usePathname();
   // The menu remembers which page it was opened on and only shows on that page,
   // so navigating anywhere (including via the header icons) closes it automatically.
@@ -131,6 +133,7 @@ export function Header() {
             <ul className="flex flex-col">
               {navLinks.map((link, index) => {
                 const active = isActive(pathname, link.href);
+                const showCategories = link.href === "/shop" && menuCategories.length > 0;
                 return (
                   <li key={link.href} className="border-b border-border">
                     <Link
@@ -144,6 +147,21 @@ export function Header() {
                     >
                       {link.label}
                     </Link>
+                    {showCategories && (
+                      <ul aria-label="Shop by category" className="-mt-2 flex flex-col pb-3 pl-4">
+                        {menuCategories.map((category) => (
+                          <li key={category.slug}>
+                            <Link
+                              href={`/shop?category=${category.slug}`}
+                              onClick={closeMenu}
+                              className={`flex min-h-11 items-center rounded-sm text-lg text-fg-muted transition-colors hover:text-fg ${focusRing}`}
+                            >
+                              {category.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 );
               })}
