@@ -8,7 +8,7 @@ import { AccountLink } from "@/components/auth/account-link";
 import { CameraIcon, ChatIcon, CloseIcon, MenuIcon } from "@/components/icons";
 import { HeaderShopLinks } from "@/components/shop/header-shop-links";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { contactLink, navLinks, site } from "@/lib/site";
+import { contactLink, generalEnquiryMessage, navLinks, site } from "@/lib/site";
 
 function isActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
@@ -26,7 +26,7 @@ export function Header() {
   const isMenuOpen = menuOpenOn === pathname;
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
-  const contact = contactLink();
+  const contact = contactLink(generalEnquiryMessage);
 
   const closeMenu = () => setMenuOpenOn(null);
 

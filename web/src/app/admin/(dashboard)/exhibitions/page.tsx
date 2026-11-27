@@ -98,7 +98,7 @@ export default function AdminExhibitionsPage() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <h1 className="text-4xl">Exhibitions</h1>
-          <p className="text-sm text-fg-muted">Upcoming exhibitions appear on the home page after you publish.</p>
+          <p className="text-sm text-fg-muted">Upcoming exhibitions appear on the home and contact pages after you publish.</p>
         </div>
         {!adding && (
           <button type="button" onClick={() => setAdding(true)} className={buttonStyles.primary}>
