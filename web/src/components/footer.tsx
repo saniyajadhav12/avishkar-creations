@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CameraIcon, ChatIcon } from "@/components/icons";
-import { contactLink, navLinks, site } from "@/lib/site";
+import { contactLink, generalEnquiryMessage, navLinks, site } from "@/lib/site";
 
 const linkClass =
   "inline-flex min-h-11 items-center gap-2 rounded-sm text-fg-muted transition-colors hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-line";
@@ -9,7 +9,7 @@ const linkClass =
 const headingClass = "font-sans text-xs font-medium tracking-[0.2em] text-fg-muted uppercase";
 
 export function Footer() {
-  const contact = contactLink();
+  const contact = contactLink(generalEnquiryMessage);
   // Static export: the year is set at build time, and every publish triggers a fresh build.
   const year = new Date().getFullYear();
 

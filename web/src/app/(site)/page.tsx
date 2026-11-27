@@ -9,7 +9,7 @@ import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { getCategories, getProducts, getUpcomingExhibitions } from "@/lib/catalog";
 import { formatDateRange } from "@/lib/format";
-import { contactLink, site } from "@/lib/site";
+import { contactLink, generalEnquiryMessage, site } from "@/lib/site";
 
 const container = "mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8";
 const imageLinkFocus =
@@ -41,7 +41,7 @@ export default async function HomePage() {
     return [{ category, count: inCategory.length, cover }];
   });
 
-  const contact = contactLink("Hello! I'd love to know more about your jewellery.");
+  const contact = contactLink(generalEnquiryMessage);
 
   return (
     <>

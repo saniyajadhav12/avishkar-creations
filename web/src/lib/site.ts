@@ -29,6 +29,9 @@ export const navLinks = [
   { href: "/contact", label: "Contact" },
 ] as const;
 
+// Prefilled greeting for general (non-product) messages, so website enquiries are easy to recognise
+export const generalEnquiryMessage = "Hello! I found Avishkar Creations through your website and have a question.";
+
 /**
  * Where "message us" buttons point: WhatsApp once the number is set, her Instagram profile until then.
  * An optional prefilled message is only supported by WhatsApp.
